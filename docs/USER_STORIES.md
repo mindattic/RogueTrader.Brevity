@@ -267,3 +267,4 @@ _Nothing recorded yet._
 | RTB-T244 | 2026-10-25 | chore | closed | RTB v3 dialogue rewrite: .brevity/all group 235/237 (10 chunks: c1349, c1350, c1351...) | check.py OK on .brevity/all group 235 |
 | RTB-T245 | 2026-10-25 | chore | closed | RTB v3 dialogue rewrite: .brevity/all group 236/237 (17 chunks: c1359, c1360, c1361...) | check.py OK on .brevity/all group 236 |
 | RTB-T246 | 2026-10-25 | chore | closed | RTB v3 dialogue rewrite: .brevity/all group 237/237 (17 chunks: c1376, c1377, c1378...) | check.py OK on .brevity/all group 237 |
+| RTB-T248 | 2026-10-25 | fix | closed | Replace the NSFW dev-name placeholder on the Nexus before/after images' Rogue Trader portrait plate with 'Rogue Trader', matching one clean border across all 15 screenshots | assets/*_WarGovernor_RM_dialog_*.png |
