@@ -9,7 +9,7 @@ using Anthropic.Models.Messages;
 using Anthropic.Models.Messages.Batches;
 
 const string PromptVersion = "v2";
-const string SystemPrompt = """
+const string PromptTemplate = """
     You shorten dialogue from the video game Warhammer 40,000: Rogue Trader. The player finds it too
     verbose and wants the same conversations in fewer words.
 
@@ -26,13 +26,7 @@ const string SystemPrompt = """
       move a token with the words it wraps, but never drop, add, translate or alter one.
 
     Length:
-    - NPC lines ("cue"): 20% of the original length by default. Go up to 30% only when the line
-      needs more explanation (lore, quest instructions, how something works) or carries emotional
-      punch (a confession, a death, a turning point in a relationship), and spend the extra words
-      on that. Cut repetition, flourishes and restated context first; narration in {n}...{/n} can
-      usually shrink to a few words.
-    - Player answers ("answer"): about 50%, so the player can still tell options apart and see who
-      or what each one is about.
+    {LENGTH}
     - Lines that are already short: return them unchanged rather than lose meaning.
 
     "prev" is the line shown just before, for context only; do not rewrite it.
@@ -55,6 +49,35 @@ var limit = opts.TryGetValue("limit", out var l) ? int.Parse(l) : int.MaxValue;
 var skipVoiced = opts.ContainsKey("skip-voiced");
 var sync = opts.ContainsKey("sync");
 var dryRun = opts.ContainsKey("dry-run");
+var pack = opts.GetValueOrDefault("pack", "20");
+var packLengths = new Dictionary<string, string>
+{
+    ["50"] = """
+        - NPC lines ("cue"): about 50% of the original length. Cut repetition, flourishes and restated
+          context first; narration in {n}...{/n} can usually shrink the most.
+        - Player answers ("answer"): about 70%, so the player can still tell options apart.
+        """,
+    ["30"] = """
+        - NPC lines ("cue"): about 30% of the original length. Go up to 40% only when the line needs
+          more explanation (lore, quest instructions, how something works) or carries emotional punch
+          (a confession, a death, a turning point in a relationship), and spend the extra words on
+          that. Cut repetition, flourishes and restated context first; narration in {n}...{/n} can
+          usually shrink to a few words.
+        - Player answers ("answer"): about 50%, so the player can still tell options apart and see who
+          or what each one is about.
+        """,
+    ["20"] = """
+        - NPC lines ("cue"): 20% of the original length by default. Go up to 30% only when the line
+          needs more explanation (lore, quest instructions, how something works) or carries emotional
+          punch (a confession, a death, a turning point in a relationship), and spend the extra words
+          on that. Cut repetition, flourishes and restated context first; narration in {n}...{/n} can
+          usually shrink to a few words.
+        - Player answers ("answer"): about 50%, so the player can still tell options apart and see who
+          or what each one is about.
+        """,
+};
+if (!packLengths.TryGetValue(pack, out var packLength)) throw new ArgumentException($"--pack must be one of {string.Join(", ", packLengths.Keys)}");
+var systemPrompt = PromptTemplate.Replace("{LENGTH}", packLength.TrimEnd());
 Directory.CreateDirectory(work);
 
 var jsonOpts = new JsonSerializerOptions { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping, PropertyNameCaseInsensitive = true };
@@ -94,7 +117,7 @@ if (dryRun) { WriteOutput(); return; }
 if (opts.GetValueOrDefault("export") is { Length: > 0 } exportDir)
 {
     Directory.CreateDirectory(exportDir);
-    File.WriteAllText(Path.Combine(exportDir, "INSTRUCTIONS.md"), SystemPrompt + """
+    File.WriteAllText(Path.Combine(exportDir, "INSTRUCTIONS.md"), systemPrompt + """
 
         Output: for each `<id>.json` chunk, write `<id>.out.json` next to it containing only
         {"lines":[{"id":"L1","text":"..."}, ...]} with every id from the chunk exactly once.
@@ -106,7 +129,7 @@ if (opts.GetValueOrDefault("export") is { Length: > 0 } exportDir)
 }
 
 var client = new Lazy<AnthropicClient>(() => new());
-var statePath = Path.Combine(work, "pending-batch.json");
+var statePath = Path.Combine(work, $"pending-batch-{pack}.json");
 var stats = new Dictionary<string, int>();
 var rejects = new StreamWriter(Path.Combine(work, "rejects.jsonl"), append: true, new UTF8Encoding(false));
 var cacheWriter = new StreamWriter(cachePath, append: true, new UTF8Encoding(false));
@@ -139,7 +162,7 @@ else if (sync)
         {
             var msg = await client.Value.Messages.Create(new MessageCreateParams
             {
-                Model = model, MaxTokens = 16000, System = SystemPrompt, OutputConfig = Output(),
+                Model = model, MaxTokens = 16000, System = systemPrompt, OutputConfig = Output(),
                 Messages = [new UserMessageParam { Content = UserMessage(c) }],
             });
             Apply(c, msg);
@@ -158,7 +181,7 @@ else
             CustomID = c.Id,
             Params = new Params
             {
-                Model = model, MaxTokens = 16000, System = SystemPrompt, OutputConfig = Output(),
+                Model = model, MaxTokens = 16000, System = systemPrompt, OutputConfig = Output(),
                 Messages = [new UserMessageParam { Content = UserMessage(c) }],
             },
         }).ToList(),
@@ -266,14 +289,14 @@ void WriteOutput()
             before += x.Words;
             after += WordCount(e.Text);
         }
-    var outPath = Path.Combine(work, "simplified.json");
+    var outPath = Path.Combine(work, $"simplified-{pack}.json");
     File.WriteAllText(outPath, JsonSerializer.Serialize(outMap, new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }));
     Console.WriteLine($"{outMap.Count:N0} simplified lines in {Path.GetFullPath(outPath)}: {before:N0} -> {after:N0} words ({(before == 0 ? 0 : 100.0 * after / before):F0}%)");
 }
 
 void Count(string k, int n) => stats[k] = stats.GetValueOrDefault(k) + n;
 
-static string Hash(string text) => Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(PromptVersion + "\n" + text)))[..32];
+string Hash(string text) => Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes($"{PromptVersion}/{pack}\n{text}")))[..32];
 
 static int WordCount(string s) => s.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries).Length;
 

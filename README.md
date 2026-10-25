@@ -41,6 +41,15 @@ sent to `claude-opus-5-5` with structured JSON output. Options:
 - `--speaker NAME`, `--dialog TEXT`, `--limit N` pick a subset; `--skip-voiced` leaves voiced lines alone.
 - `--sync` sends requests one at a time (good for trials); without it the job goes through the Message
   Batches API at half price. Stopping and rerunning the same command resumes a batch.
+- `--pack 50|30|20` (default `20`) picks the length:
+
+  | Pack | NPC lines | Player answers |
+  |---|---|---|
+  | 50 | ~50% | ~70% |
+  | 30 | ~30%, up to 40% for exposition or emotional beats | ~50% |
+  | 20 | ~20%, up to 30% for exposition or emotional beats | ~50% |
+
+  Each pack has its own cache entries and writes `.brevity/simplified-<pack>.json`.
 - `--model`, `--effort low|medium|high|max` (default `medium`).
 - `--export DIR` writes each pending request as `DIR/<id>.json` plus `INSTRUCTIONS.md` and a
   manifest, and needs no API key: Claude Code subagents rewrite each chunk into `<id>.out.json`.
@@ -49,4 +58,4 @@ sent to `claude-opus-5-5` with structured JSON output. Options:
 Results are cached in `.brevity/cache.jsonl` by a hash of the original text (plus the prompt
 version), so reruns and game patches only send lines that changed. A line is rejected (and kept in
 `.brevity/rejects.jsonl` to retry later) if it comes back missing, empty, or with a different set of
-markup tokens. `.brevity/simplified.json` maps each string key to its shortened text for the overlay mod.
+markup tokens. `.brevity/simplified-<pack>.json` maps each string key to its shortened text for the overlay mod.
