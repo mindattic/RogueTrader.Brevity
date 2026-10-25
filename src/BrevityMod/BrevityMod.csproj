@@ -26,4 +26,19 @@
     <Message Importance="high" Text="Installed to $(ModDir)" />
   </Target>
 
+  <!-- dotnet build -c Release also writes the Nexus/Vortex upload: dist\RogueTraderBrevity-<version>.zip holding a
+       RogueTraderBrevity folder, the layout Unity Mod Manager and Vortex expect. -->
+  <Target Name="PackageMod" AfterTargets="InstallMod" Condition="'$(Configuration)' == 'Release'">
+    <PropertyGroup>
+      <ModVersion>$([System.Text.RegularExpressions.Regex]::Match($([System.IO.File]::ReadAllText('$(MSBuildThisFileDirectory)Info.json')), '"Version":\s*"([^"]+)"').Groups[1].Value)</ModVersion>
+      <DistDir>$(MSBuildThisFileDirectory)..\..\dist</DistDir>
+      <StageDir>$(IntermediateOutputPath)package</StageDir>
+    </PropertyGroup>
+    <RemoveDir Directories="$(StageDir)" />
+    <Copy SourceFiles="$(TargetPath);Info.json;$(ShortText)" DestinationFolder="$(StageDir)\RogueTraderBrevity" />
+    <MakeDir Directories="$(DistDir)" />
+    <ZipDirectory SourceDirectory="$(StageDir)" DestinationFile="$(DistDir)\RogueTraderBrevity-$(ModVersion).zip" Overwrite="true" />
+    <Message Importance="high" Text="Packaged $(DistDir)\RogueTraderBrevity-$(ModVersion).zip" />
+  </Target>
+
 </Project>
