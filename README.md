@@ -27,3 +27,23 @@ Each line of `dialogue.jsonl` is one cue (NPC line) or answer (player reply):
 | `soulMarkShift` / `soulMarkRequirement` | Conviction change or gate, e.g. `Hope 2` |
 | `voiced` | Has voice-over (from `Sound.json`) |
 | `words`, `text` | Word count and the original English text |
+
+## Phase 2: simplify with Claude
+
+```
+dotnet run --project tools/DialogueSimplify -- --in dialogue.jsonl --speaker Idira --limit 3 --sync
+```
+
+Needs `ANTHROPIC_API_KEY` set. Each request is one conversation (split at 120 lines / 4,000 words),
+sent to `claude-opus-5-5` with structured JSON output. Options:
+
+- `--dry-run` counts what would be sent and sends nothing.
+- `--speaker NAME`, `--dialog TEXT`, `--limit N` pick a subset; `--skip-voiced` leaves voiced lines alone.
+- `--sync` sends requests one at a time (good for trials); without it the job goes through the Message
+  Batches API at half price. Stopping and rerunning the same command resumes a batch.
+- `--model`, `--effort low|medium|high|max` (default `medium`).
+
+Results are cached in `.brevity/cache.jsonl` by a hash of the original text (plus the prompt
+version), so reruns and game patches only send lines that changed. A line is rejected (and kept in
+`.brevity/rejects.jsonl` to retry later) if it comes back missing, empty, or with a different set of
+markup tokens. `.brevity/simplified.json` maps each string key to its shortened text for the overlay mod.
