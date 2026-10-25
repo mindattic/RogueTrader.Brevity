@@ -8,7 +8,7 @@ using Anthropic.Exceptions;
 using Anthropic.Models.Messages;
 using Anthropic.Models.Messages.Batches;
 
-const string PromptVersion = "v1";
+const string PromptVersion = "v2";
 const string SystemPrompt = """
     You shorten dialogue from the video game Warhammer 40,000: Rogue Trader. The player finds it too
     verbose and wants the same conversations in fewer words.
@@ -26,9 +26,13 @@ const string SystemPrompt = """
       move a token with the words it wraps, but never drop, add, translate or alter one.
 
     Length:
-    - NPC lines ("cue"): aim for 30-50% of the original length. Cut repetition, flourishes and
-      restated context first; narration in {n}...{/n} can usually shrink the most.
-    - Player answers ("answer"): shorten less, about 60-80%, so the player can still tell options apart.
+    - NPC lines ("cue"): 20% of the original length by default. Go up to 30% only when the line
+      needs more explanation (lore, quest instructions, how something works) or carries emotional
+      punch (a confession, a death, a turning point in a relationship), and spend the extra words
+      on that. Cut repetition, flourishes and restated context first; narration in {n}...{/n} can
+      usually shrink to a few words.
+    - Player answers ("answer"): about 50%, so the player can still tell options apart and see who
+      or what each one is about.
     - Lines that are already short: return them unchanged rather than lose meaning.
 
     "prev" is the line shown just before, for context only; do not rewrite it.
