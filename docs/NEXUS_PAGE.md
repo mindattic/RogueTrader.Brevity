@@ -17,8 +17,8 @@ User Interface (alternative: Miscellaneous)
 
 ## Summary (max 350 characters)
 
-Cuts the reading in Rogue Trader's dialogue by 66.8%. NPC speeches, narration and answer options are rewritten
-shorter, 1.28 million words down to 425 thousand, while every story beat, choice and skill check stays the same.
+Cuts the reading in Rogue Trader's dialogue by 66.8%, including all three story DLCs. NPC speeches, narration and
+answer options are rewritten shorter, 1.28 million words down to 425 thousand, while every story beat, choice and skill check stays the same.
 Toggle it live in-game with Ctrl+F10 to compare. Safe to add or remove mid-playthrough.
 
 ## Tags
@@ -62,7 +62,13 @@ editor's top right corner, which converts BBCode.
 Rogue Trader has some of the longest dialogue in any CRPG. Characters often take a full paragraph to say something that fits in a sentence. Brevity rewrites the game's dialogue to be shorter while keeping what happens, what each character wants and every choice you make.
 
 [list]
-[*][b]39,650[/b] lines rewritten, covering the base game and DLC
+[*][b]39,650[/b] lines rewritten, covering the base game and all three story DLCs:
+[list]
+[*]Base game: 26,867 lines
+[*][b]Void Shadows[/b]: 4,918 lines
+[*][b]Lex Imperialis[/b]: 3,550 lines
+[*][b]The Infinite Museion[/b]: 4,315 lines
+[/list]
 [*]NPC lines and narration: [b]71% fewer words[/b]
 [*]Your answer options: [b]42% fewer words[/b], kept closer to the original so you always know what you're choosing
 [*]All dialogue: [b]1.28 million words down to 425 thousand (66.8% less)[/b], about 85 hours of reading down to roughly 28
@@ -115,7 +121,7 @@ The same line in game, original above and Brevity below:
 [size=5][b]Requirements[/b][/size]
 [list]
 [*]Warhammer 40,000: Rogue Trader, with the game language set to English.
-[*]Nothing else. Unity Mod Manager is built into the game, and DLC isn't required (DLC dialogue is shortened too if you own it).
+[*]Nothing else. Unity Mod Manager is built into the game, and no DLC is required. If you own Void Shadows, Lex Imperialis or The Infinite Museion, their dialogue is shortened too, with nothing extra to install.
 [*]Compatible with mods that don't change dialogue text. A mod that also replaces English dialogue will conflict on the lines both change.
 [/list]
 
