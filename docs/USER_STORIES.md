@@ -1,6 +1,6 @@
 ---
 codex: 1
-project: RogueTraderBrevity
+project: RogueTrader.Brevity
 code: RTB
 layer: stories
 status: living
@@ -8,7 +8,7 @@ updated: 2026-10-24
 ---
 <!-- GENERATED from MindAttic.Tickets/data/Tickets.db by `tickets db render`. Do not edit: this file is rewritten from the database; change stories and tickets with the tickets CLI. -->
 
-# RogueTraderBrevity — User Stories
+# RogueTrader.Brevity — User Stories
 > ✅ done (shipped & tested) · 🟡 partial · ⬜ planned. Every ✅ cites the test.
 
 ## Priority backlog
@@ -24,10 +24,10 @@ _Nothing recorded yet._
 | RTB-T1 | 2026-10-24 | docs | closed | Start the permanent ticket log in the ticket database | — |
 | RTB-T2 | 2026-10-24 | fix | closed | Repo has no commits, so the launcher's pull fails with 'no such ref was fetched'; add the first commit (AGENTS.md pointer, .gitignore, commit hooks) and push main | — |
 | RTB-T3 | 2026-10-24 | feature | closed | Phase 1 dialogue export: a mod built from Owlcat's template that walks the dialogue blueprints (BlueprintCue, BlueprintAnswer, BlueprintBookPage) and writes dialogue.jsonl with each line's string key, speaker, dialogue tree, previous line, skill check/conviction markers and voiced flag, so the LLM simplify pass gets context | — |
-| RTB-T4 | 2026-10-24 | feature | open | Phase 2 simplify: C# console app that sends each conversation from dialogue.jsonl to the Claude API (Batch API), keeps meaning, names, numbers, choice hints and markup tokens, trims to ~30-50%, caches by a hash of the original text, and supports a trial run on one companion's conversations | — |
+| RTB-T4 | 2026-10-24 | feature | closed | Phase 2 simplify: C# console app that sends each conversation from dialogue.jsonl to the Claude API (Batch API), keeps meaning, names, numbers, choice hints and markup tokens, trims to ~30-50%, caches by a hash of the original text, and supports a trial run on one companion's conversations | tools/DialogueSimplify: Batch API + --sync + --export/--import; the full run used --export/--import with plan subagents (RTB-T6) |
 | RTB-T5 | 2026-10-24 | feature | wont-do | Length packs: DialogueSimplify --pack 50\|30\|20 with per-pack length rules, cache entries and simplified-<pack>.json, so the overlay mod can switch between Full, 50, 30 and 20 in game | — |
 | RTB-T6 | 2026-10-24 | chore | closed | Rewrite all dialogue to the v3 rules with Claude Code subagents (no API key): companions first, then chapters 1-5, then DLC1-3 and the rest; import each wave into .brevity/cache.jsonl | all 1,393 chunks imported: 39,650 lines, 1,263,733 -> 408,983 words (32%); 0 uncached; mod rebuilt |
-| RTB-T7 | 2026-10-24 | feature | open | Phase 4 overlay mod: a mod that loads .brevity/simplified.json and replaces those localization strings at runtime via Harmony, with an in-game toggle between full and short dialogue; game files stay untouched | — |
+| RTB-T7 | 2026-10-24 | feature | closed | Phase 4 overlay mod: a mod that loads .brevity/simplified.json and replaces those localization strings at runtime via Harmony, with an in-game toggle between full and short dialogue; game files stay untouched | Owner's in-game check: mod on/off screenshot pairs, then 1.0.0 release |
 | RTB-T8 | 2026-10-25 | chore | closed | RTB v3 dialogue rewrite: .brevity/all group 0/237 (2 chunks: c0, c1) | RTB-T6 |
 | RTB-T9 | 2026-10-25 | chore | closed | RTB v3 dialogue rewrite: .brevity/all group 1/237 (3 chunks: c2, c3, c4) | RTB-T6 |
 | RTB-T10 | 2026-10-25 | chore | closed | RTB v3 dialogue rewrite: .brevity/all group 2/237 (4 chunks: c5, c6, c7...) | RTB-T6 |
@@ -258,7 +258,7 @@ _Nothing recorded yet._
 | RTB-T235 | 2026-10-25 | chore | closed | RTB v3 dialogue rewrite: .brevity/all group 227/237 (1 chunks: c1243) | check.py OK on .brevity/all group 227 |
 | RTB-T236 | 2026-10-25 | chore | closed | RTB v3 dialogue rewrite: .brevity/all group 228/237 (1 chunks: c1244) | check.py OK on .brevity/all group 228 |
 | RTB-T237 | 2026-10-25 | chore | closed | RTB v3 dialogue rewrite: .brevity/all group 229/237 (5 chunks: c1245, c1246, c1247...) | check.py OK on .brevity/all group 229 |
-| RTB-T238 | 2026-10-25 | feature | open | Package the overlay mod for Nexus Mods / Vortex: zip the build output (Info.json, RogueTraderBrevity.dll, simplified.json) as a single top-level RogueTraderBrevity/ folder (matching the UnityModManager layout ChemBoy1's Rogue Trader Vortex extension and UMM both expect), version the filename from Info.json's Version, add an MSBuild/PowerShell packaging step producing dist/RogueTraderBrevity-<version>.zip from the already-installed ModDir, and write the Nexus page requirements (Unity Mod Manager hard dependency, note Steam achievements are disabled while modded, mention MicroPatches for the in-game mod manager) | UMM layout per nexusmods.com/site/mods/1627 (ChemBoy1 Vortex ext) and github.com/LaughingLeader/RogueTraderMods |
+| RTB-T238 | 2026-10-25 | feature | closed | Package the overlay mod for Nexus Mods / Vortex: zip the build output (Info.json, RogueTraderBrevity.dll, simplified.json) as a single top-level RogueTraderBrevity/ folder (matching the UnityModManager layout ChemBoy1's Rogue Trader Vortex extension and UMM both expect), version the filename from Info.json's Version, add an MSBuild/PowerShell packaging step producing dist/RogueTraderBrevity-<version>.zip from the already-installed ModDir, and write the Nexus page requirements (Unity Mod Manager hard dependency, note Steam achievements are disabled while modded, mention MicroPatches for the in-game mod manager) | https://www.nexusmods.com/warhammer40kroguetrader/mods/651 |
 | RTB-T239 | 2026-10-25 | chore | closed | RTB v3 dialogue rewrite: .brevity/all group 230/237 (5 chunks: c1250, c1251, c1252...) | check.py OK on .brevity/all group 230 |
 | RTB-T240 | 2026-10-25 | chore | closed | RTB v3 dialogue rewrite: .brevity/all group 231/237 (8 chunks: c1255, c1256, c1257...) | check.py OK on .brevity/all group 231 |
 | RTB-T241 | 2026-10-25 | chore | closed | RTB v3 dialogue rewrite: .brevity/all group 232/237 (13 chunks: c1263, c1264, c1265...) | check.py OK on .brevity/all group 232 |
@@ -267,4 +267,6 @@ _Nothing recorded yet._
 | RTB-T244 | 2026-10-25 | chore | closed | RTB v3 dialogue rewrite: .brevity/all group 235/237 (10 chunks: c1349, c1350, c1351...) | check.py OK on .brevity/all group 235 |
 | RTB-T245 | 2026-10-25 | chore | closed | RTB v3 dialogue rewrite: .brevity/all group 236/237 (17 chunks: c1359, c1360, c1361...) | check.py OK on .brevity/all group 236 |
 | RTB-T246 | 2026-10-25 | chore | closed | RTB v3 dialogue rewrite: .brevity/all group 237/237 (17 chunks: c1376, c1377, c1378...) | check.py OK on .brevity/all group 237 |
+| RTB-T247 | 2026-10-25 | fix | closed | Restore lines the 30% cap cut too far: Calcazar's and Argenta's prayers and Ulfar's poems in full, Calligos's suspicion of the xenos, two Afterlight plot points; released as 1.0.1 | .brevity/review.txt; dist/RogueTraderBrevity-1.0.1.zip |
 | RTB-T248 | 2026-10-25 | fix | closed | Replace the NSFW dev-name placeholder on the Nexus before/after images' Rogue Trader portrait plate with 'Rogue Trader', matching one clean border across all 15 screenshots | assets/*_WarGovernor_RM_dialog_*.png |
+| RTB-T249 | 2026-10-25 | docs | closed | Re-render docs/USER_STORIES.md from the ticket database to pick up already-closed tickets (T4, T7, T238, T247) and the repo rename to RogueTrader.Brevity | MindAttic.Tickets/data/Tickets.db |
