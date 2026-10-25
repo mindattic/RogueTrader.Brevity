@@ -3,6 +3,8 @@
 Shortens Warhammer 40,000: Rogue Trader's dialogue: export every conversation line, simplify it
 with an LLM, and load the shorter text back through a runtime overlay mod.
 
+Released on Nexus Mods as **Rogue Trader Brevity**: https://www.nexusmods.com/warhammer40kroguetrader/mods/651
+
 ## Phase 1: export the dialogue
 
 ```

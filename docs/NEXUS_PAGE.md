@@ -1,5 +1,7 @@
 # Nexus Mods page: Rogue Trader Brevity
 
+Live at https://www.nexusmods.com/warhammer40kroguetrader/mods/651 (1.0.0 published 2026-10-25).
+
 Copy each field into the Nexus Mods upload form. The description is BBCode, which is what Nexus's editor
 accepts in source mode.
 
