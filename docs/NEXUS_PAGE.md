@@ -11,7 +11,14 @@ Rogue Trader Brevity
 
 ## Version
 
-1.0.0
+1.0.1 (upload `dist/RogueTraderBrevity-1.0.1.zip` as a new file version)
+
+## Changelog
+
+- **1.0.1:** Restored lines that the length limit had cut too far: Calcazar's and Argenta's prayers and Ulfar's
+  poems are back in full, Calligos again says he suspects your xenos companion is tied to events on his
+  planet, and two of Afterlight's speeches keep the plot points they had lost.
+- **1.0.0:** First release.
 
 ## Category
 
@@ -115,7 +122,7 @@ The same line in game, original above and Brevity below:
 
 [b]Known issues:[/b]
 [list]
-[*]Some long passages lose detail. The prayers, Ulfar's poems and some lore monologues read noticeably thinner. Switch the mod off for those scenes if you want the full version.
+[*]Long lore monologues read thinner than the original. Prayers and poems are kept in full. Switch the mod off for any scene you want word for word.
 [*]New or changed lines from future game patches keep their original text until the mod is updated. Nothing breaks.
 [*]If you see raw markup such as {g| or {mf| in a line, or a line that no longer makes sense, post it in the Posts tab with the character's name and the text.
 [/list]
