@@ -11,11 +11,11 @@ Rogue Trader Brevity
 
 ## Version
 
-1.0.1 (upload `dist/RogueTraderBrevity-1.0.1.zip` as a new file version)
+2.0.0 (upload `dist/RogueTraderBrevity-2.0.0.zip` as a new file version)
 
 ## Changelog
 
-- **1.0.1:** Restored lines that the length limit had cut too far: Calcazar's and Argenta's prayers and Ulfar's
+- **2.0.0:** Restored lines that the length limit had cut too far: Calcazar's and Argenta's prayers and Ulfar's
   poems are back in full, Calligos again says he suspects your xenos companion is tied to events on his
   planet, and two of Afterlight's speeches keep the plot points they had lost.
 - **1.0.0:** First release.
