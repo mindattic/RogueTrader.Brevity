@@ -1,4 +1,4 @@
-# RogueTraderBrevity
+# RogueTrader.Brevity
 
 Shortens Warhammer 40,000: Rogue Trader's dialogue: export every conversation line, simplify it
 with an LLM, and load the shorter text back through a runtime overlay mod.

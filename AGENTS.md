@@ -6,7 +6,7 @@ copy under a provider-specific command folder.
 
 ## Project context
 
-RogueTraderBrevity shortens Warhammer 40,000: Rogue Trader's dialogue: export the dialogue lines,
+RogueTrader.Brevity shortens Warhammer 40,000: Rogue Trader's dialogue: export the dialogue lines,
 simplify them with an LLM, and load the shorter text back through a runtime overlay mod.
 
 - Game install: `D:\Games\Steam\steamapps\common\Warhammer 40,000 Rogue Trader`
