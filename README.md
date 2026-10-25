@@ -52,3 +52,19 @@ Results are cached in `.brevity/cache.jsonl` by a hash of the original text (plu
 version), so reruns and game patches only send lines that changed. A line is rejected (and kept in
 `.brevity/rejects.jsonl` to retry later) if it comes back missing, empty, or with a different set of
 markup tokens. `.brevity/simplified.json` maps each string key to its shortened text for the overlay mod.
+
+## Phase 4: the overlay mod
+
+```
+dotnet build src/BrevityMod
+```
+
+Builds a Unity Mod Manager mod and installs it, with the current `.brevity/simplified.json`, into
+`%USERPROFILE%\AppData\LocalLow\Owlcat Games\Warhammer 40000 Rogue Trader\UnityModManager\RogueTraderBrevity`
+(the game starts its own Unity Mod Manager, so nothing else is needed). Rebuild after each import to
+pick up newly shortened lines. Override `GameDir`, `UmmDir` or `ShortText` with `-p:Name=value`.
+
+When the English text loads, the mod writes the shortened lines into the game's localization pack in
+memory; `enGB.json` on disk is never touched. Disabling the mod in Unity Mod Manager (Ctrl+F10)
+puts the original text back immediately, even mid-conversation; lines without a shortened version
+always show the original.

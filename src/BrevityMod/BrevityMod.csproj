@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>RogueTraderBrevity</AssemblyName>
+    <RootNamespace>RogueTraderBrevity</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <GameDir Condition="'$(GameDir)' == ''">D:\Games\Steam\steamapps\common\Warhammer 40,000 Rogue Trader</GameDir>
+    <Managed>$(GameDir)\WH40KRT_Data\Managed</Managed>
+    <UmmDir Condition="'$(UmmDir)' == ''">$(USERPROFILE)\AppData\LocalLow\Owlcat Games\Warhammer 40000 Rogue Trader\UnityModManager</UmmDir>
+    <ModDir>$(UmmDir)\RogueTraderBrevity</ModDir>
+    <ShortText Condition="'$(ShortText)' == ''">$(MSBuildThisFileDirectory)..\..\.brevity\simplified.json</ShortText>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json" HintPath="$(Managed)\Newtonsoft.Json.dll" Private="false" />
+    <Reference Include="RogueTrader.GameCore" HintPath="$(Managed)\RogueTrader.GameCore.dll" Private="false" />
+    <Reference Include="LocalizationShared" HintPath="$(Managed)\LocalizationShared.dll" Private="false" />
+    <Reference Include="Kingmaker.Localization.Enums" HintPath="$(Managed)\Kingmaker.Localization.Enums.dll" Private="false" />
+    <Reference Include="UnityModManager" HintPath="$(UmmDir)\UnityModManager.dll" Private="false" />
+  </ItemGroup>
+
+  <Target Name="InstallMod" AfterTargets="Build">
+    <Error Condition="!Exists('$(ShortText)')" Text="No shortened text at $(ShortText); run DialogueSimplify --import first." />
+    <Copy SourceFiles="$(TargetPath);Info.json;$(ShortText)" DestinationFolder="$(ModDir)" />
+    <Message Importance="high" Text="Installed to $(ModDir)" />
+  </Target>
+
+</Project>
