@@ -5,7 +5,7 @@ accepts in source mode.
 
 ## Mod name
 
-Rogue Trader Brevity - Shorter Dialogue
+Brevity
 
 ## Version
 
@@ -84,7 +84,7 @@ The same line in game, original above and Brevity below:
 [*]Download the archive.
 [*]Extract the [b]RogueTraderBrevity[/b] folder into:
 [code]%USERPROFILE%\AppData\LocalLow\Owlcat Games\Warhammer 40000 Rogue Trader\UnityModManager\[/code]
-[*]Start the game and press [b]Ctrl+F10[/b] to check that the mod shows as active.
+[*]Start the game and press [b]Ctrl+F10[/b] to check that "Brevity" shows as active.
 [/list]
 
 [b]Uninstalling:[/b] delete the [b]RogueTraderBrevity[/b] folder, or switch the mod off with Ctrl+F10. The mod never writes to your saves or the game files. It swaps the text in memory while the game runs, so it's safe to add or remove at any point in a playthrough.
