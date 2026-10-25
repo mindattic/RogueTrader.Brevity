@@ -17,9 +17,9 @@ User Interface (alternative: Miscellaneous)
 
 ## Summary (max 350 characters)
 
-Cuts the reading in Rogue Trader's dialogue by about two-thirds. Every conversation keeps its story, choices and
-skill checks, but NPC speeches, narration and answer options are rewritten shorter: 1.28 million words down to
-425,000. Toggle it live in-game with Ctrl+F10 to compare. Save-safe.
+Cuts the reading in Rogue Trader's dialogue by 66.8%. NPC speeches, narration and answer options are rewritten
+shorter, 1.28 million words down to 425 thousand, while every story beat, choice and skill check stays the same.
+Toggle it live in-game with Ctrl+F10 to compare. Safe to add or remove mid-playthrough.
 
 ## Tags
 
