@@ -87,13 +87,40 @@ var pendingWords = chunks.Sum(c => c.Lines.Sum(x => x.Words));
 Console.WriteLine($"{conversations.Count:N0} conversations, {conversations.Sum(g => g.Count()):N0} lines; {chunks.Sum(c => c.Lines.Count):N0} lines ({pendingWords:N0} words) not cached yet, in {chunks.Count:N0} requests");
 if (dryRun) { WriteOutput(); return; }
 
-AnthropicClient client = new();
+if (opts.GetValueOrDefault("export") is { Length: > 0 } exportDir)
+{
+    Directory.CreateDirectory(exportDir);
+    File.WriteAllText(Path.Combine(exportDir, "INSTRUCTIONS.md"), SystemPrompt + """
+
+        Output: for each `<id>.json` chunk, write `<id>.out.json` next to it containing only
+        {"lines":[{"id":"L1","text":"..."}, ...]} with every id from the chunk exactly once.
+        """);
+    foreach (var c in chunks) File.WriteAllText(Path.Combine(exportDir, c.Id + ".json"), UserMessage(c));
+    File.WriteAllText(Path.Combine(exportDir, "manifest.json"), JsonSerializer.Serialize(chunks.Select(c => new ChunkRef(c.Id, c.Conversation, c.Lines.Select(x => x.Key).ToList()))));
+    Console.WriteLine($"exported {chunks.Count:N0} chunks to {Path.GetFullPath(exportDir)}");
+    return;
+}
+
+var client = new Lazy<AnthropicClient>(() => new());
 var statePath = Path.Combine(work, "pending-batch.json");
 var stats = new Dictionary<string, int>();
 var rejects = new StreamWriter(Path.Combine(work, "rejects.jsonl"), append: true, new UTF8Encoding(false));
 var cacheWriter = new StreamWriter(cachePath, append: true, new UTF8Encoding(false));
 
-if (File.Exists(statePath))
+if (opts.GetValueOrDefault("import") is { Length: > 0 } importDir)
+{
+    var refs = JsonSerializer.Deserialize<List<ChunkRef>>(File.ReadAllText(Path.Combine(importDir, "manifest.json")), jsonOpts)!;
+    var imported = 0;
+    foreach (var r in refs)
+    {
+        var outFile = Path.Combine(importDir, r.Id + ".out.json");
+        if (!File.Exists(outFile)) continue;
+        ApplyJson(new Chunk(r.Id, r.Conversation, r.Keys.Select(k => byKey[k]).ToList()), File.ReadAllText(outFile));
+        imported++;
+    }
+    Console.WriteLine($"imported {imported:N0} of {refs.Count:N0} chunks");
+}
+else if (File.Exists(statePath))
 {
     var state = JsonSerializer.Deserialize<BatchState>(File.ReadAllText(statePath), jsonOpts)!;
     Console.WriteLine($"resuming batch {state.BatchId}");
@@ -106,7 +133,7 @@ else if (sync)
     {
         try
         {
-            var msg = await client.Messages.Create(new MessageCreateParams
+            var msg = await client.Value.Messages.Create(new MessageCreateParams
             {
                 Model = model, MaxTokens = 16000, System = SystemPrompt, OutputConfig = Output(),
                 Messages = [new UserMessageParam { Content = UserMessage(c) }],
@@ -120,7 +147,7 @@ else if (sync)
 }
 else
 {
-    var batch = await client.Messages.Batches.Create(new BatchCreateParams
+    var batch = await client.Value.Messages.Batches.Create(new BatchCreateParams
     {
         Requests = chunks.Select(c => new Request
         {
@@ -146,12 +173,12 @@ async Task CollectBatch(string id, Dictionary<string, Chunk> byId)
 {
     while (true)
     {
-        var b = await client.Messages.Batches.Retrieve(id);
+        var b = await client.Value.Messages.Batches.Retrieve(id);
         Console.WriteLine($"  {DateTime.Now:HH:mm:ss} {b.ProcessingStatus}: {b.RequestCounts.Succeeded} succeeded, {b.RequestCounts.Processing} processing, {b.RequestCounts.Errored} errored");
         if (b.ProcessingStatus == ProcessingStatus.Ended) break;
         await Task.Delay(TimeSpan.FromSeconds(60));
     }
-    await foreach (var r in client.Messages.Batches.ResultsStreaming(id))
+    await foreach (var r in client.Value.Messages.Batches.ResultsStreaming(id))
     {
         var c = byId[r.CustomID];
         if (r.Result.TryPickSucceeded(out var ok)) Apply(c, ok.Message);
@@ -192,7 +219,11 @@ void Apply(Chunk c, Message msg)
         Count($"stop: {msg.StopReason}", c.Lines.Count);
         return;
     }
-    var json = string.Concat(msg.Content.Select(b => b.Value).OfType<TextBlock>().Select(t => t.Text));
+    ApplyJson(c, string.Concat(msg.Content.Select(b => b.Value).OfType<TextBlock>().Select(t => t.Text)));
+}
+
+void ApplyJson(Chunk c, string json)
+{
     Dictionary<string, string> outById;
     try { outById = JsonSerializer.Deserialize<Reply>(json, jsonOpts)!.Lines.GroupBy(x => x.Id).ToDictionary(g => g.Key, g => g.First().Text); }
     catch (JsonException) { Count("unparseable reply", c.Lines.Count); return; }

@@ -42,6 +42,9 @@ sent to `claude-opus-5-5` with structured JSON output. Options:
 - `--sync` sends requests one at a time (good for trials); without it the job goes through the Message
   Batches API at half price. Stopping and rerunning the same command resumes a batch.
 - `--model`, `--effort low|medium|high|max` (default `medium`).
+- `--export DIR` writes each pending request as `DIR/<id>.json` plus `INSTRUCTIONS.md` and a
+  manifest, and needs no API key: Claude Code subagents rewrite each chunk into `<id>.out.json`.
+  `--import DIR` then runs those replies through the same checks and cache.
 
 Results are cached in `.brevity/cache.jsonl` by a hash of the original text (plus the prompt
 version), so reruns and game patches only send lines that changed. A line is rejected (and kept in
