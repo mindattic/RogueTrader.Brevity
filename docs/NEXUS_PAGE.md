@@ -138,6 +138,7 @@ The same line in game, original above and Brevity below:
 [list]
 [*][b]Owlcat Games[/b] for Rogue Trader and for building Unity Mod Manager support into it.
 [*]The [b]Unity Mod Manager[/b] project, which loads the mod and provides the live toggle.
+[*][url=https://www.nexusmods.com/profile/BoethiahQueen][b]BoethiahQueen[/b][/url], for pointing out where the shortening went too far and left characters barely able to speak English. That report led to the line-by-line polish pass in 3.0.0.
 [*]The shortened text was written with an AI model (Claude) from each conversation's original text and context, and checked by script so every name, glossary link and gendered word survived.
 [/list]
 
