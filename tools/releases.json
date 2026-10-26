@@ -1,0 +1,5 @@
+[
+  {"version": "1.0.0", "cacheLines": 487083, "summary": "First release: every NPC line, narration and answer option rewritten shorter, base game and all three story DLCs."},
+  {"version": "2.0.0", "cacheLines": 487336, "summary": "Restored lines the length limit had cut too far: Calcazar's and Argenta's prayers and Ulfar's poems in full, Calligos's suspicion of the xenos, and two Afterlight plot points. (Briefly numbered 1.0.1.)"},
+  {"version": "3.0.0", "cacheLines": 492969, "summary": "Polished lines the shortening had cut into stilted or broken English, while keeping them short."}
+]

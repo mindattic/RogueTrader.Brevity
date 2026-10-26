@@ -69,6 +69,15 @@ Builds a Unity Mod Manager mod and installs it, with the current `.brevity/simpl
 (the game starts its own Unity Mod Manager, so nothing else is needed). Rebuild after each import to
 pick up newly shortened lines. Override `GameDir`, `UmmDir` or `ShortText` with `-p:Name=value`.
 
+## Releases
+
+Every release has its own list of changed lines, `docs/dialogue-polish-changes-v<major>.md`. To
+release, append the new version and the current line count of `.brevity/cache.jsonl` to
+`tools/releases.json`, then run `python -I tools/release_changes.py`. It rebuilds each release's
+text from the append-only cache and writes the list for any release that doesn't have one yet.
+
+## How the mod works
+
 When the English text loads, the mod writes the shortened lines into the game's localization pack in
 memory; `enGB.json` on disk is never touched. Disabling the mod in Unity Mod Manager (Ctrl+F10)
 puts the original text back immediately, even mid-conversation; lines without a shortened version

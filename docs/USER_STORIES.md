@@ -274,3 +274,4 @@ _Nothing recorded yet._
 | RTB-T251 | 2026-10-26 | docs | closed | Credit Nexus user BoethiahQueen in the attributions for reporting the stilted-dialogue problem | — |
 | RTB-T252 | 2026-10-26 | chore | closed | Build on RogueTrader.Shared: game paths, references, packaging, LocalizationOverlay and BlueprintArchive from the shared source | 5651d66 |
 | RTB-T253 | 2026-10-26 | docs | closed | Rename docs/dialogue-polish-changes.md to dialogue-polish-changes-v3.md so the change list names the release it belongs to | — |
+| RTB-T254 | 2026-10-26 | docs | closed | Keep a dialogue change list for every release (v1, v2, v3 and each future one), rebuilt from the cache history by a script | — |
