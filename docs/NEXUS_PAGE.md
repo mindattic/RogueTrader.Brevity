@@ -11,10 +11,15 @@ Rogue Trader Brevity
 
 ## Version
 
-2.0.0 (upload `dist/RogueTraderBrevity-2.0.0.zip` as a new file version)
+3.0.0 (upload `dist/RogueTraderBrevity-3.0.0.zip` as a new file version)
 
 ## Changelog
 
+- **3.0.0:** Polished 5,633 lines that the shortening had cut into stilted or broken English: missing
+  words put back, fragments joined into real sentences, characters' voices and in-setting words restored
+  (no more "burn" where the original said "incinerate"), and lines that had lost their meaning repaired.
+  Everything is still short: about 3 more words per fixed line. Thanks to BoethiahQueen for the report.
+  Full list: `docs/dialogue-polish-changes.md`.
 - **2.0.0:** Restored lines that the length limit had cut too far: Calcazar's and Argenta's prayers and Ulfar's
   poems are back in full, Calligos again says he suspects your xenos companion is tied to events on his
   planet, and two of Afterlight's speeches keep the plot points they had lost.
@@ -26,8 +31,8 @@ User Interface (alternative: Miscellaneous)
 
 ## Summary (max 350 characters)
 
-Cuts the reading in Rogue Trader's dialogue by ~66%, including all three story DLCs. NPC speeches, narration and
-answer options are rewritten shorter, 1.28 million words (~85 hours) down to 425 thousand (~28 hours), every story
+Cuts the reading in Rogue Trader's dialogue by ~65%, including all three story DLCs. NPC speeches, narration and
+answer options are rewritten shorter, 1.28 million words (~85 hours) down to 441 thousand (~29 hours), every story
 beat, choice and skill check stays the same. Toggle it in-game with Ctrl+F10. Safe to add or remove mid-playthrough.
 
 ## Tags
@@ -78,9 +83,10 @@ Rogue Trader has some of the longest dialogue in any CRPG. Characters often take
 [*][b]Lex Imperialis[/b]: 3,550 lines
 [*][b]The Infinite Museion[/b]: 4,315 lines
 [/list]
-[*]NPC lines and narration: [b]71% fewer words[/b]
-[*]Your answer options: [b]42% fewer words[/b], kept closer to the original so you always know what you're choosing
-[*]All dialogue: [b]1.28 million words down to 425 thousand (66.8% less)[/b], about 85 hours of reading down to roughly 28
+[*]NPC lines and narration: [b]70% fewer words[/b]
+[*]Your answer options: [b]43% fewer words[/b], kept closer to the original so you always know what you're choosing
+[*]All dialogue: [b]1.28 million words down to 441 thousand (65.5% less)[/b], about 85 hours of reading down to roughly 29
+[*]Shorter, not worse: every shortened line was reviewed again in 3.0.0 so it reads as fluent English in the speaker's own voice
 [/list]
 
 The same line in game, original above and Brevity below:

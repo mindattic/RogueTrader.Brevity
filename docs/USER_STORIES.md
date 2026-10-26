@@ -270,6 +270,6 @@ _Nothing recorded yet._
 | RTB-T247 | 2026-10-25 | fix | closed | Restore lines the 30% cap cut too far: Calcazar's and Argenta's prayers and Ulfar's poems in full, Calligos's suspicion of the xenos, two Afterlight plot points; released as 1.0.1 | .brevity/review.txt; dist/RogueTraderBrevity-1.0.1.zip |
 | RTB-T248 | 2026-10-25 | fix | closed | Replace the NSFW dev-name placeholder on the Nexus before/after images' Rogue Trader portrait plate with 'Rogue Trader', matching one clean border across all 15 screenshots | assets/*_WarGovernor_RM_dialog_*.png |
 | RTB-T249 | 2026-10-25 | docs | closed | Re-render docs/USER_STORIES.md from the ticket database to pick up already-closed tickets (T4, T7, T238, T247) and the repo rename to RogueTrader.Brevity | MindAttic.Tickets/data/Tickets.db |
-| RTB-T250 | 2026-10-26 | fix | open | Fix stilted over-shortened dialogue: restore natural grammar and word choice (e.g. Medineh's broken English, incinerate->burn), list every change | — |
+| RTB-T250 | 2026-10-26 | fix | closed | Fix stilted over-shortened dialogue: restore natural grammar and word choice (e.g. Medineh's broken English, incinerate->burn), list every change | — |
 | RTB-T251 | 2026-10-26 | docs | closed | Credit Nexus user BoethiahQueen in the attributions for reporting the stilted-dialogue problem | — |
 | RTB-T252 | 2026-10-26 | chore | closed | Build on RogueTrader.Shared: game paths, references, packaging, LocalizationOverlay and BlueprintArchive from the shared source | 5651d66 |
