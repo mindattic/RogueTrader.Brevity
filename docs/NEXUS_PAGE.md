@@ -19,7 +19,7 @@ Rogue Trader Brevity
   words put back, fragments joined into real sentences, characters' voices and in-setting words restored
   (no more "burn" where the original said "incinerate"), and lines that had lost their meaning repaired.
   Everything is still short: about 3 more words per fixed line. Thanks to BoethiahQueen for the report.
-  Full list: `docs/dialogue-polish-changes.md`.
+  Full list: `docs/dialogue-polish-changes-v3.md`.
 - **2.0.0:** Restored lines that the length limit had cut too far: Calcazar's and Argenta's prayers and Ulfar's
   poems are back in full, Calligos again says he suspects your xenos companion is tied to events on his
   planet, and two of Afterlight's speeches keep the plot points they had lost.
