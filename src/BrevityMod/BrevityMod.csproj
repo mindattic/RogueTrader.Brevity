@@ -1,44 +1,37 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <!-- Game paths and references, the shared runtime helpers and release packaging come from RogueTrader.Shared,
+       checked out next to this repo. -->
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <RogueTraderShared Condition="'$(RogueTraderShared)' == ''">$(MSBuildThisFileDirectory)..\..\..\RogueTrader.Shared</RogueTraderShared>
+  </PropertyGroup>
+  <Import Project="$(RogueTraderShared)\RogueTrader.Mod.props" />
+
+  <PropertyGroup>
     <AssemblyName>RogueTraderBrevity</AssemblyName>
     <RootNamespace>RogueTraderBrevity</RootNamespace>
-    <LangVersion>latest</LangVersion>
-    <GameDir Condition="'$(GameDir)' == ''">D:\Games\Steam\steamapps\common\Warhammer 40,000 Rogue Trader</GameDir>
-    <Managed>$(GameDir)\WH40KRT_Data\Managed</Managed>
-    <UmmDir Condition="'$(UmmDir)' == ''">$(USERPROFILE)\AppData\LocalLow\Owlcat Games\Warhammer 40000 Rogue Trader\UnityModManager</UmmDir>
-    <ModDir>$(UmmDir)\RogueTraderBrevity</ModDir>
+    <UmmDir Condition="'$(UmmDir)' == ''">$(GameDataDir)\UnityModManager</UmmDir>
+    <ModFolderName>RogueTraderBrevity</ModFolderName>
+    <ModInstallDir>$(UmmDir)\$(ModFolderName)</ModInstallDir>
+    <ModVersion>$([System.Text.RegularExpressions.Regex]::Match($([System.IO.File]::ReadAllText('$(MSBuildThisFileDirectory)Info.json')), '"Version":\s*"([^"]+)"').Groups[1].Value)</ModVersion>
     <ShortText Condition="'$(ShortText)' == ''">$(MSBuildThisFileDirectory)..\..\.brevity\simplified.json</ShortText>
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json" HintPath="$(Managed)\Newtonsoft.Json.dll" Private="false" />
-    <Reference Include="RogueTrader.GameCore" HintPath="$(Managed)\RogueTrader.GameCore.dll" Private="false" />
-    <Reference Include="LocalizationShared" HintPath="$(Managed)\LocalizationShared.dll" Private="false" />
-    <Reference Include="Kingmaker.Localization.Enums" HintPath="$(Managed)\Kingmaker.Localization.Enums.dll" Private="false" />
     <Reference Include="UnityModManager" HintPath="$(UmmDir)\UnityModManager.dll" Private="false" />
   </ItemGroup>
 
   <Target Name="InstallMod" AfterTargets="Build">
     <Error Condition="!Exists('$(ShortText)')" Text="No shortened text at $(ShortText); run DialogueSimplify --import first." />
-    <Copy SourceFiles="$(TargetPath);Info.json;$(ShortText)" DestinationFolder="$(ModDir)" />
-    <Message Importance="high" Text="Installed to $(ModDir)" />
+    <Copy SourceFiles="$(TargetPath);Info.json;$(ShortText)" DestinationFolder="$(ModInstallDir)" />
+    <Message Importance="high" Text="Installed to $(ModInstallDir)" />
   </Target>
 
-  <!-- dotnet build -c Release also writes the Nexus/Vortex upload: dist\RogueTraderBrevity-<version>.zip holding a
-       RogueTraderBrevity folder, the layout Unity Mod Manager and Vortex expect. -->
-  <Target Name="PackageMod" AfterTargets="InstallMod" Condition="'$(Configuration)' == 'Release'">
-    <PropertyGroup>
-      <ModVersion>$([System.Text.RegularExpressions.Regex]::Match($([System.IO.File]::ReadAllText('$(MSBuildThisFileDirectory)Info.json')), '"Version":\s*"([^"]+)"').Groups[1].Value)</ModVersion>
-      <DistDir>$(MSBuildThisFileDirectory)..\..\dist</DistDir>
-      <StageDir>$(IntermediateOutputPath)package</StageDir>
-    </PropertyGroup>
-    <RemoveDir Directories="$(StageDir)" />
-    <Copy SourceFiles="$(TargetPath);Info.json;$(ShortText)" DestinationFolder="$(StageDir)\RogueTraderBrevity" />
-    <MakeDir Directories="$(DistDir)" />
-    <ZipDirectory SourceDirectory="$(StageDir)" DestinationFile="$(DistDir)\RogueTraderBrevity-$(ModVersion).zip" Overwrite="true" />
-    <Message Importance="high" Text="Packaged $(DistDir)\RogueTraderBrevity-$(ModVersion).zip" />
-  </Target>
+  <!-- dotnet build -c Release also writes the Nexus/Vortex upload, dist\RogueTraderBrevity-<version>.zip holding a
+       RogueTraderBrevity folder (RogueTrader.Package.targets). Only these files ship, not settings Unity Mod Manager
+       writes into the install folder. -->
+  <ItemGroup>
+    <PackageFile Include="$(TargetPath);Info.json;$(ShortText)" />
+  </ItemGroup>
 
 </Project>

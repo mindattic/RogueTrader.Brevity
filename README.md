@@ -5,6 +5,9 @@ with an LLM, and load the shorter text back through a runtime overlay mod.
 
 Released on Nexus Mods as **Rogue Trader Brevity**: https://www.nexusmods.com/warhammer40kroguetrader/mods/651
 
+Building needs [RogueTrader.Shared](https://github.com/mindattic/RogueTrader.Shared) checked out next to this
+repo (shared game paths, references, packaging and helpers).
+
 ## Phase 1: export the dialogue
 
 ```

@@ -1,4 +1,4 @@
-using System.Formats.Tar;
+using RogueTrader.Shared;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -19,7 +19,7 @@ var unitNames = new Dictionary<string, string>();
 var typeRx = new Regex(@"""\$type"": ""[0-9a-f]+, (\w+)""");
 var scanned = 0;
 
-foreach (var (path, json) in ReadBlueprints(blueprints))
+foreach (var (path, json) in BlueprintArchive.Read(blueprints))
 {
     if (++scanned % 20000 == 0) Console.WriteLine($"  scanned {scanned:N0} blueprints");
     var m = typeRx.Match(json, 0, Math.Min(json.Length, 400));
@@ -126,27 +126,6 @@ static Dictionary<string, string> LoadStrings(string path)
     foreach (var p in doc.RootElement.GetProperty("strings").EnumerateObject())
         d[p.Name] = p.Value.GetProperty("Text").GetString() ?? "";
     return d;
-}
-
-static IEnumerable<(string Path, string Json)> ReadBlueprints(string source)
-{
-    if (Directory.Exists(source))
-    {
-        foreach (var f in Directory.EnumerateFiles(source, "*.jbp", SearchOption.AllDirectories))
-            yield return (Path.GetRelativePath(source, f).Replace('\\', '/'), File.ReadAllText(f));
-        yield break;
-    }
-
-    using var fs = File.OpenRead(source);
-    using var tar = new TarReader(fs);
-    const string marker = "/Blueprints/";
-    while (tar.GetNextEntry() is { } e)
-    {
-        var at = e.Name.IndexOf(marker, StringComparison.Ordinal);
-        if (e.EntryType is not (TarEntryType.RegularFile or TarEntryType.V7RegularFile) || at < 0 || !e.Name.EndsWith(".jbp") || e.DataStream is null) continue;
-        using var r = new StreamReader(e.DataStream, Encoding.UTF8);
-        yield return (e.Name[(at + marker.Length)..], r.ReadToEnd());
-    }
 }
 
 sealed record Visit(string Dialog, string? PrevKey, string? Check);
