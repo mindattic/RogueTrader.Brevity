@@ -107,7 +107,7 @@ def describe(rows, short, dialog, name):
 
 def main():
     if not CAPTURE.exists():
-        sys.exit(f"capture.exe not found at {CAPTURE}; run MindAttic.Capture's deploy.ps1")
+        sys.exit(f"capture.exe not found at {CAPTURE}; run MindAttic.Capture's run.ps1")
     rows = load_lines()
     short = json.load(open(SHORT, encoding="utf-8"))
     OUT.mkdir(parents=True, exist_ok=True)
