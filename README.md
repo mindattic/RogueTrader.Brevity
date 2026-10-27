@@ -67,7 +67,9 @@ dotnet build src/BrevityMod
 Builds a Unity Mod Manager mod and installs it, with the current `.brevity/simplified.json`, into
 `%USERPROFILE%\AppData\LocalLow\Owlcat Games\Warhammer 40000 Rogue Trader\UnityModManager\RogueTraderBrevity`
 (the game starts its own Unity Mod Manager, so nothing else is needed). Rebuild after each import to
-pick up newly shortened lines. Override `GameDir`, `UmmDir` or `ShortText` with `-p:Name=value`.
+pick up newly shortened lines. If the Nexus release is also installed through Vortex, the build refreshes
+Vortex's staged copy too, so a Vortex deploy doesn't put the older release back. Override `GameDir`,
+`UmmDir`, `ShortText` or `VortexModsDir` with `-p:Name=value`.
 
 ## Releases
 

@@ -275,3 +275,4 @@ _Nothing recorded yet._
 | RTB-T252 | 2026-10-26 | chore | closed | Build on RogueTrader.Shared: game paths, references, packaging, LocalizationOverlay and BlueprintArchive from the shared source | 5651d66 |
 | RTB-T253 | 2026-10-26 | docs | closed | Rename docs/dialogue-polish-changes.md to dialogue-polish-changes-v3.md so the change list names the release it belongs to | — |
 | RTB-T254 | 2026-10-26 | docs | closed | Keep a dialogue change list for every release (v1, v2, v3 and each future one), rebuilt from the cache history by a script | — |
+| RTB-T256 | 2026-10-26 | fix | closed | Vortex deploy put the Nexus 2.0.0 files back over the built 3.0.0 mod; the build now also refreshes Vortex's staged copy so either deploy ships the latest version | dotnet build src/BrevityMod: Vortex staged simplified.json hash matches .brevity |

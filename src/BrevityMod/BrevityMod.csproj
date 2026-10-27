@@ -29,6 +29,19 @@
     <Message Importance="high" Text="Installed to $(ModInstallDir)" />
   </Target>
 
+  <!-- A copy installed through Vortex (the Nexus download) keeps its own staged files, and Vortex's next deploy puts
+       those back over the install above. Refresh every staged copy so Vortex deploys this build too. -->
+  <PropertyGroup>
+    <VortexModsDir Condition="'$(VortexModsDir)' == ''">$(APPDATA)\Vortex\warhammer40kroguetrader\mods</VortexModsDir>
+  </PropertyGroup>
+  <Target Name="RefreshVortexCopy" AfterTargets="InstallMod">
+    <ItemGroup>
+      <VortexStagedInfo Include="$(VortexModsDir)\$(ModFolderName) *\$(ModFolderName)\Info.json" />
+    </ItemGroup>
+    <Copy Condition="'@(VortexStagedInfo)' != ''" SourceFiles="$(TargetPath);Info.json;$(ShortText)" DestinationFolder="%(VortexStagedInfo.RootDir)%(VortexStagedInfo.Directory)" />
+    <Message Condition="'@(VortexStagedInfo)' != ''" Importance="high" Text="Refreshed Vortex's staged copy in %(VortexStagedInfo.RootDir)%(VortexStagedInfo.Directory)" />
+  </Target>
+
   <!-- dotnet build -c Release also writes the Nexus/Vortex upload, dist\RogueTraderBrevity-<version>.zip holding a
        RogueTraderBrevity folder (RogueTrader.Package.targets). Only these files ship, not settings Unity Mod Manager
        writes into the install folder. -->
